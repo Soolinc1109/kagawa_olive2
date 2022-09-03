@@ -1,12 +1,14 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:fluttertwitter/model/account.dart';
 import 'package:fluttertwitter/utils/authentication.dart';
 import 'package:fluttertwitter/view/account/account_page.dart';
 import 'package:fluttertwitter/view/time_line/front_page.dart';
 import 'package:fluttertwitter/view/time_line/post_page.dart';
 import 'package:fluttertwitter/view/time_line/search_page.dart';
+import 'package:fluttertwitter/view/time_line/shop_page.dart';
 import 'package:fluttertwitter/view/time_line/time_line_page.dart';
 import 'package:fluttertwitter/utils/firestore/users.dart';
 
@@ -41,14 +43,16 @@ class _ScreenState extends State<Screen> {
     if (user == null) {
       return const SizedBox();
     }
-    return FutureBuilder<dynamic>(
+    return FutureBuilder<Account?>(
         future: UserFirestore.getUserInfo(user.uid),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return FrontPage();
           }
-          print(snapshot.data);
-          Account myaccountinfo = snapshot.data;
+          final account = snapshot.data;
+          if (account == null) {
+            return FrontPage();
+          }
           return Scaffold(
             body: pageList[selectedIndex],
             bottomNavigationBar: Container(
@@ -67,10 +71,15 @@ class _ScreenState extends State<Screen> {
                         icon: Icon(Icons.home_outlined), label: 'ホーム'),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.search), label: '探す'),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.people),
-                      label: 'プロフィール',
-                    ),
+                    account.is_shop
+                        ? BottomNavigationBarItem(
+                            icon: Icon(Icons.people),
+                            label: "ショップ",
+                          )
+                        : BottomNavigationBarItem(
+                            icon: Icon(Icons.people),
+                            label: 'プロフィール',
+                          ),
                   ],
                   selectedItemColor: Colors.black,
                   currentIndex: selectedIndex,

@@ -1094,10 +1094,11 @@ class _ShopPageState extends State<ShopPage> {
                         // .orderBy('created_time', descending: true)
 
                         builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return SizedBox();
+                          }
                           List<String> shoplist = List.generate(
                               snapshot.data!.docs.length, (index) {
-                            print('=============11============');
-                            print(widget.shopinfo!.shop_name);
                             return snapshot.data!.docs[index].id;
 
                             //自分のmypostsのIDとpostsコレクションにある同じIDの投稿をとってくるために参照
@@ -1107,6 +1108,9 @@ class _ShopPageState extends State<ShopPage> {
                               future: ShopFirestore.getShopMenu(
                                   widget.shopinfo!.id, 1),
                               builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return SizedBox();
+                                }
                                 return GridView.builder(
                                     shrinkWrap: true,
                                     primary: false,
@@ -1119,6 +1123,9 @@ class _ShopPageState extends State<ShopPage> {
                                             crossAxisCount: 2),
                                     itemCount: snapshot.data!.length,
                                     itemBuilder: (context, index) {
+                                      if (!snapshot.hasData) {
+                                        return SizedBox();
+                                      }
                                       Menu shopAccount = snapshot.data![index];
 
                                       return Container(
@@ -1319,10 +1326,11 @@ class _ShopPageState extends State<ShopPage> {
                           // .orderBy('created_time', descending: true)
 
                           builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return SizedBox();
+                            }
                             List<String> shoplist = List.generate(
                                 snapshot.data!.docs.length, (index) {
-                              print('=============11============');
-                              print(widget.shopinfo!.shop_name);
                               return snapshot.data!.docs[index].id;
 
                               //自分のmypostsのIDとpostsコレクションにある同じIDの投稿をとってくるために参照
@@ -1332,6 +1340,9 @@ class _ShopPageState extends State<ShopPage> {
                                 future: ShopFirestore.getShopMenu(
                                     widget.shopinfo!.id, 2),
                                 builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return SizedBox();
+                                  }
                                   return GridView.builder(
                                       shrinkWrap: true,
                                       primary: false,
@@ -1344,8 +1355,9 @@ class _ShopPageState extends State<ShopPage> {
                                               crossAxisCount: 2),
                                       itemCount: snapshot.data!.length,
                                       itemBuilder: (context, index) {
-                                        print(snapshot.data![0]);
-                                        print(snapshot.data!.length);
+                                        if (!snapshot.hasData) {
+                                          return SizedBox();
+                                        }
 
                                         Menu shopAccount =
                                             snapshot.data![index];
@@ -1536,6 +1548,9 @@ class _ShopPageState extends State<ShopPage> {
                           // .collection('my_user_post')
                           // .orderBy('created_time', descending: true)
                           builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return SizedBox();
+                            }
                             List<String> shoplist = List.generate(
                                 snapshot.data!.docs.length, (index) {
                               return snapshot.data!.docs[index].id;
@@ -1544,6 +1559,9 @@ class _ShopPageState extends State<ShopPage> {
                                 future: ShopFirestore.getShopMenu(
                                     widget.shopinfo!.id, 3),
                                 builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return SizedBox();
+                                  }
                                   return GridView.builder(
                                       shrinkWrap: true,
                                       primary: false,
@@ -1556,6 +1574,9 @@ class _ShopPageState extends State<ShopPage> {
                                               crossAxisCount: 2),
                                       itemCount: snapshot.data!.length,
                                       itemBuilder: (context, index) {
+                                        if (!snapshot.hasData) {
+                                          return SizedBox();
+                                        }
                                         Menu shopAccount =
                                             snapshot.data![index];
                                         return Padding(

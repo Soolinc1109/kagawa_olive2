@@ -176,13 +176,6 @@ class _FrontPageState extends State<FrontPage> {
                             ],
                           ),
                         ),
-                        // Container(
-                        //   child: Text('とに同意します',
-                        //       style: TextStyle(
-                        //           color: Color.fromARGB(255, 0, 0, 0),
-                        //           fontWeight: FontWeight.bold,
-                        //           fontSize: 13)),
-                        // ),
                         SizedBox(
                           width: 20,
                         ),
@@ -359,35 +352,30 @@ class _FrontPageState extends State<FrontPage> {
                                                               onPressed:
                                                                   () async {
                                                             final userCredential =
-                                                                await Authentication
+                                                                await Authentication()
                                                                     .signInWithGoogle();
+
                                                             if (userCredential ==
                                                                 null) {
                                                               //エラーの処理
                                                               return;
                                                             }
-                                                            final result =
-                                                                await UserFirestore
-                                                                    .existsUser(
-                                                                        Authentication
-                                                                            .currentFirebaseUser!
-                                                                            .uid);
-                                                            if (result) {
-                                                              await Navigator
-                                                                  .pushReplacement(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            Screen(
-                                                                              num: 1,
-                                                                            )),
-                                                              );
-                                                              return;
-                                                            }
-                                                            
-                                                          })
 
+                                                           
+                                                            await Navigator
+                                                                .pushReplacement(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Screen(
+                                                                            num:
+                                                                                1,
+                                                                          )),
+                                                            );
+                                                            //   return;
+                                                            // }
+                                                          })
                                                         ],
                                                       ),
                                                     ],

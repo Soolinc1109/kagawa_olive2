@@ -15,6 +15,8 @@ class Account {
   late String likemovie;
   late String likefood;
   late String hobby;
+  late bool is_shop;
+  late String shop_account_id;
 
   Timestamp? createdTime;
   Timestamp? updatedTime;
@@ -34,6 +36,8 @@ class Account {
     this.likemovie = '',
     this.likefood = '',
     this.hobby = '',
+    this.is_shop = false,
+    this.shop_account_id = '',
     this.createdTime,
     this.updatedTime,
   });

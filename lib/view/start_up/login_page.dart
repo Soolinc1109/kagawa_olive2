@@ -103,45 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-//                     ElevatedButton(
-//                       onPressed: () async{
-// try {
-//   final result =await store
 
-// }catch{
-
-// }
-//                       },
-//                       // onPressed: () =>
-//                       //     ref.read(authManagerProvider).signInWithLine(),
-//                       child: const Text('Sign In with LINE'),
-//                     ),
-
-                    // SizedBox(
-                    //   height: 20,
-                    // ),
-                    // RichText(
-                    //   text: TextSpan(
-                    //     style: TextStyle(color: Colors.black),
-                    //     children: [
-                    //       TextSpan(text: 'アカウントを作成していない方は'),
-                    //       TextSpan(
-                    //           text: 'こちら',
-                    //           style: TextStyle(
-                    //             color: Color.fromARGB(255, 71, 240, 158),
-                    //           ),
-                    //           recognizer: TapGestureRecognizer()
-                    //             ..onTap = () {
-                    //               Navigator.push(
-                    //                 context,
-                    //                 MaterialPageRoute(
-                    //                     builder: (context) =>
-                    //                         CreateAccountPage()),
-                    //               );
-                    //             })
-                    //     ],
-                    //   ),
-                    // ),
                     SizedBox(
                       height: 60,
                     ),
@@ -155,12 +117,12 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         onPressed: () async {
-                          var result = await Authentication.emailSignIn(
+                          final result = await Authentication.emailSignIn(
                               email: emailController.text,
                               pass: passController.text);
                           if (result is UserCredential) {
                             if (result.user!.emailVerified == true) {
-                              Account _result = await UserFirestore.getUserInfo(
+                              final _result = await UserFirestore.getUserInfo(
                                   result.user!.uid);
                               if (_result is Account) {
                                 Navigator.pushReplacement(

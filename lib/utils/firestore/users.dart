@@ -24,6 +24,8 @@ class UserFirestore {
         'likemovie': '',
         'likefood': '',
         'hobby': '',
+        'is_shop': false,
+        'shop_account_id': '',
         'created_time': Timestamp.now(),
         'updated_time': Timestamp.now(),
       });
@@ -57,7 +59,6 @@ class UserFirestore {
       // //     likemovie: data['likemovie'],
       // //     likefood: data['likefood'],
       // //     hobby: data['hobby']);
-
       // // Authentication.myAccount = myAccount;
       // print('ユーザー取得完了');
       // return true;
@@ -68,15 +69,15 @@ class UserFirestore {
     }
   }
 
-  static Future<dynamic> getUserInfo(String uid) async {
-    print(uid);
+  static Future<Account?> getUserInfo(String uid) async {
     try {
-      DocumentSnapshot documentSnapshot = await users.doc(uid).get();
-      print('===========小谷=========');
-      Map<String, dynamic> data =
-          documentSnapshot.data() as Map<String, dynamic>;
-      print(data);
-      Account myAccount = Account(
+      final documentSnapshot = await users.doc(uid).get();
+
+      final data = documentSnapshot.data() as Map<String, dynamic>?;
+      if (data == null) {
+        return null;
+      }
+      final myAccount = Account(
           id: uid,
           name: data['name'],
           userId: data['user_id'],
@@ -91,18 +92,15 @@ class UserFirestore {
           likemovie: data['likemovie'],
           likefood: data['likefood'],
           hobby: data['hobby'],
+          shop_account_id: data['shop_account_id'],
+          is_shop: data['is_shop'],
           createdTime: data['created_time'],
           updatedTime: data['updated_time']);
-
-      print('===========佐藤=========');
-      Authentication.myAccount = myAccount;
-      print(myAccount.imagePath);
-      print('================12224=========');
       print('ユーザー取得完了です');
       return myAccount;
     } on FirebaseException catch (e) {
       print('ユーザー取得失敗');
-      return false;
+      return null;
       //ログイン時にfirestoreからユーザーの情報を取得
     }
   }

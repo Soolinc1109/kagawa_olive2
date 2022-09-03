@@ -9,14 +9,18 @@ import 'package:fluttertwitter/model/category.dart';
 import 'package:fluttertwitter/model/genre.dart';
 import 'package:fluttertwitter/model/post.dart';
 import 'package:fluttertwitter/model/shop.dart';
+import 'package:fluttertwitter/utils/authentication.dart';
 import 'package:fluttertwitter/utils/firestore/category_firestore.dart';
 import 'package:fluttertwitter/utils/firestore/posts.dart';
 import 'package:fluttertwitter/utils/firestore/shops.dart';
 import 'package:fluttertwitter/utils/firestore/users.dart';
+import 'package:fluttertwitter/view/account/edit_account_page.dart';
+import 'package:fluttertwitter/view/time_line/front_page.dart';
 import 'package:fluttertwitter/view/time_line/genre_line_page.dart';
 import 'package:fluttertwitter/view/time_line/post_page.dart';
 import 'package:fluttertwitter/view/time_line/shop_page.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TimeLinePage extends StatefulWidget {
   const TimeLinePage({Key? key}) : super(key: key);
@@ -26,6 +30,7 @@ class TimeLinePage extends StatefulWidget {
 }
 
 class _TimeLinePageState extends State<TimeLinePage> {
+  var _city = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,6 +55,191 @@ class _TimeLinePageState extends State<TimeLinePage> {
       ),
       child: Scaffold(
         backgroundColor: Color.fromARGB(0, 255, 255, 255),
+        endDrawer: Drawer(
+          child: ListView(
+            children: <Widget>[
+              Container(
+                height: 100,
+                child: DrawerHeader(
+                  child: Text(
+                    '設定',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 255, 183, 0),
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  '注意事項',
+                  style: TextStyle(fontSize: 17),
+                ),
+                onTap: () {
+                  setState(() => _city = 'Dallas, TX');
+                  Navigator.pop(context);
+                },
+              ),
+              Divider(
+                height: 10,
+                thickness: 0.6,
+                indent: 20,
+                endIndent: 20,
+                color: Color.fromARGB(255, 135, 135, 135),
+              ),
+              ListTile(
+                title: Text(
+                  'プロフィールを編集する',
+                  style: TextStyle(fontSize: 17),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditAccountPage(),
+                      fullscreenDialog: true,
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                height: 10,
+                thickness: 0.6,
+                indent: 20,
+                endIndent: 20,
+                color: Color.fromARGB(255, 135, 135, 135),
+              ),
+              ListTile(
+                title: Text(
+                  'お問い合せ',
+                  style: TextStyle(fontSize: 17),
+                ),
+                onTap: () {
+                  setState(() => _city = 'お問合せ');
+                  Navigator.pop(context);
+                },
+              ),
+              Divider(
+                height: 10,
+                thickness: 0.6,
+                indent: 20,
+                endIndent: 20,
+                color: Color.fromARGB(255, 135, 135, 135),
+              ),
+              ListTile(
+                title: Text(
+                  'プライバシーポリシー',
+                  style: TextStyle(fontSize: 17),
+                ),
+                onTap: () async {
+                  final url = Uri.parse(
+                    'https://aware-trumpet-339.notion.site/olive-9484611a2ce44155af6c31584b4c2e3e',
+                  );
+                  if (await canLaunchUrl(url)) {
+                    launchUrl(url);
+                  } else {
+                    // ignore: avoid_print
+                    print("Can't launch $url");
+                  }
+                },
+              ),
+              Column(
+                children: [
+                  Divider(
+                    height: 10,
+                    thickness: 0.6,
+                    indent: 20,
+                    endIndent: 20,
+                    color: Color.fromARGB(255, 135, 135, 135),
+                  ),
+                  ListTile(
+                    title: Text(
+                      'プライバシーポリシー',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    onTap: () async {
+                      final url = Uri.parse(
+                        'https://aware-trumpet-339.notion.site/olive-9484611a2ce44155af6c31584b4c2e3e',
+                      );
+                      if (await canLaunchUrl(url)) {
+                        launchUrl(url);
+                      } else {
+                        // ignore: avoid_print
+                        print("Can't launch $url");
+                      }
+                    },
+                  ),
+                ],
+              ),
+              Divider(
+                height: 10,
+                thickness: 0.6,
+                indent: 20,
+                endIndent: 20,
+                color: Color.fromARGB(255, 135, 135, 135),
+              ),
+              ListTile(
+                title: Text(
+                  'ログアウトする',
+                  style: TextStyle(fontSize: 17),
+                ),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        height: 100,
+                        child: SimpleDialog(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(40))),
+                          title: Text("本当にログアウトしますか？"),
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(300.0),
+                              ),
+                              height: 100,
+                              child: Column(
+                                children: [
+                                  SimpleDialogOption(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            Authentication.signOut();
+                                            while (Navigator.canPop(context)) {
+                                              Navigator.pop(context);
+                                            }
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FrontPage()));
+                                          },
+                                          child: Text('ログアウトする'))),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              Divider(
+                height: 10,
+                thickness: 0.6,
+                indent: 20,
+                endIndent: 20,
+                color: Color.fromARGB(255, 135, 135, 135),
+              ),
+            ],
+          ),
+        ),
         appBar: AppBar(
           centerTitle: true,
           title: Padding(
@@ -162,16 +352,18 @@ class _TimeLinePageState extends State<TimeLinePage> {
                       // .orderBy('created_time', descending: true)
 
                       builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return SizedBox();
+                        }
                         List<String> shoplist =
                             List.generate(snapshot.data!.docs.length, (index) {
-                          print('==============１===========');
                           return snapshot.data!.docs[index].id;
 
                           //自分のmypostsのIDとpostsコレクションにある同じIDの投稿をとってくるために参照
                           //futureで情報を取る前にじぶんのIDと同じものを取るためにやらないといけない処理↑
                         });
                         return FutureBuilder<List<Shop>?>(
-                            future: ShopFirestore.getShop(shoplist),
+                            future: ShopFirestore.getShops(shoplist),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {

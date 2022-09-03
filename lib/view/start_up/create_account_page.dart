@@ -178,25 +178,25 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       onPressed: () async {
                         if (nameController.text.isNotEmpty &&
                             userIdController.text.isNotEmpty &&
-                            // emailController.text.isNotEmpty &&
-                            // passController.text.isNotEmpty &&
+                            emailController.text.isNotEmpty &&
+                            passController.text.isNotEmpty &&
                             image != null) {
-                          if (widget.isSignInWithGoogle) {
-                            var _result = await createAccaount(
-                                Authentication.currentFirebaseUser!.uid);
-                            if (_result is UserCredential) {
-                              await UserFirestore.existsUser(
-                                  (Authentication.currentFirebaseUser!.uid));
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Screen(
-                                         
-                                          num: 1,
-                                        )),
-                              );
-                            }
-                          }
+                          // if (widget.isSignInWithGoogle) {
+                          //   var _result = await createAccaount(
+                          //       Authentication.currentFirebaseUser!.uid);
+                          //   if (_result is UserCredential) {
+                          //     await UserFirestore.existsUser(
+                          //         (Authentication.currentFirebaseUser!.uid));
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(f
+                          //           builder: (context) => Screen(
+
+                          //                 num: 1,
+                          //               )),
+                          //     );
+                          //   }
+                          // }
                           var result = await Authentication.signUp(
                               email: emailController.text,
                               pass: passController.text);
@@ -205,13 +205,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             if (_result is UserCredential) {
                               // print('============メール送信=============');
                               // result.user!.sendEmailVerification();
-
                               // print('=========================');
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Screen(
-                                
                                           num: 0,
                                           // email: emailController.text,
                                           // pass: passController.text,

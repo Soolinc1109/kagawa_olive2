@@ -8,13 +8,17 @@ import 'package:fluttertwitter/model/account.dart';
 import 'package:fluttertwitter/model/genre.dart';
 import 'package:fluttertwitter/model/post.dart';
 import 'package:fluttertwitter/model/shop.dart';
+import 'package:fluttertwitter/utils/authentication.dart';
 import 'package:fluttertwitter/utils/firestore/posts.dart';
 import 'package:fluttertwitter/utils/firestore/shops.dart';
 import 'package:fluttertwitter/utils/firestore/users.dart';
+import 'package:fluttertwitter/view/account/edit_account_page.dart';
+import 'package:fluttertwitter/view/time_line/front_page.dart';
 import 'package:fluttertwitter/view/time_line/post_page.dart';
 import 'package:fluttertwitter/view/time_line/shibori_page.dart';
 import 'package:fluttertwitter/view/time_line/shop_page.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -24,6 +28,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  var _city = '';
   int? isSelectedPlace = 1;
   bool _gourmetchecked = false;
   bool _travelchecked = false;
@@ -67,6 +72,7 @@ class _SearchPageState extends State<SearchPage> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Color.fromARGB(0, 255, 255, 255),
+
         appBar: AppBar(
           actions: [Container()],
           automaticallyImplyLeading: false,
@@ -175,6 +181,9 @@ class _SearchPageState extends State<SearchPage> {
                         // .orderBy('created_time', descending: true)
 
                         builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return SizedBox();
+                          }
                           List<String> shoplist = List.generate(
                               snapshot.data!.docs.length, (index) {
                             return snapshot.data!.docs[index].id;
@@ -183,7 +192,7 @@ class _SearchPageState extends State<SearchPage> {
                             //futureで情報を取る前にじぶんのIDと同じものを取るためにやらないといけない処理↑
                           });
                           return FutureBuilder<List<Shop>?>(
-                              future: ShopFirestore.getShop(shoplist),
+                              future: ShopFirestore.getShops(shoplist),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -308,7 +317,6 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
         ),
-
         endDrawer: Drawer(
           child: ListView(
             children: [

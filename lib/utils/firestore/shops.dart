@@ -28,7 +28,7 @@ class ShopFirestore {
   //   }
   // }
 
-  static Future<List<Shop>?> getShop(List<String> sid) async {
+  static Future<List<Shop>?> getShops(List<String> sid) async {
     try {
       List<Shop> _shopList = [];
       String? basho;
@@ -160,14 +160,13 @@ class ShopFirestore {
 
   static Future<List<Menu>?> getShopMenu(String sid, int menuNum) async {
     CollectionReference doc = await shops.doc(sid).collection('menu');
-    print(shops.id);
-    print(doc.id);
+
     final QuerySnapshot querySnapshot =
         await doc.where('menu_genre_num', isEqualTo: menuNum).get();
     final queryDocSnapshot = querySnapshot.docs;
-    print(queryDocSnapshot.length);
+
     List<Menu> menuList = [];
-    print(querySnapshot.docs.length);
+
     try {
       // for (int i = 0; i < querySnapshot.docs.length; i++) {
       // List<QueryDocumentSnapshot>
@@ -176,9 +175,6 @@ class ShopFirestore {
             snapshot.data() as Map<String, dynamic>; // `data()`で中身を取り出す
         // final document = await doc.doc().get();
         // Map<String, dynamic> data = querySnapshot.docs as Map<String, dynamic>;
-        print(
-          data['menu_name'],
-        );
 
         Menu menu = Menu(
           id: doc.id,
@@ -265,6 +261,38 @@ class ShopFirestore {
     } on FirebaseException catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  static Future<Shop?> getShop(String sid) async {
+    try {
+      DocumentSnapshot documentSnapshot = await shops.doc(sid).get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+
+      Shop shop = Shop(
+          id: sid,
+          shop_name: data['shop_name'],
+          // shop_account_id: data['shop_account_id'],
+          address: data['address'],
+          selfIntroduction: data['selfIntroduction'],
+          image_path: data['image_path'],
+          instagram: data['instagram'],
+          googlemap: data['googlemap'],
+          service: data['service'],
+          place: data['place'],
+          menu_genre1: data['menu_genre1'],
+          menu_genre2: data['menu_genre2'],
+          menu_genre3: data['menu_genre3'],
+          createdTime: data['created_time'],
+          updatedTime: data['updated_time']);
+
+      print('お店情報取得完了');
+      return shop;
+    } on FirebaseException catch (e) {
+      print('お店情報取得失敗');
+      return null;
+      //ログイン時にfirestoreからユーザーの情報を取得
     }
   }
 }

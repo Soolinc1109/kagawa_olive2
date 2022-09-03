@@ -18,7 +18,8 @@ class EditAccountPage extends StatefulWidget {
 
 class _EditAccountPageState extends State<EditAccountPage> {
   int? isSelectedtype = 1;
-  Account myAccount = Authentication.myAccount!; //初期段階で編集画面に内容を追加する
+
+  var myAccount = Authentication.myAccount!; //初期段階で編集画面に内容を追加する
   TextEditingController nameController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
   TextEditingController selfIntroductionController = TextEditingController();
@@ -316,7 +317,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                             child: TextField(
                               controller: sanukibenController,
                               decoration: InputDecoration(
-                                  hintText: 'だけん,',
+                                  hintText: 'だけん',
                                   hintStyle: TextStyle(
                                       color:
                                           Color.fromARGB(255, 185, 185, 185))),
@@ -531,11 +532,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   ElevatedButton(
                       onPressed: () async {
                         if (nameController.text.isNotEmpty &&
-                            userIdController.text.isNotEmpty &&
-                            selfIntroductionController.text.isNotEmpty &&
-                            universalController.text.isNotEmpty &&
-                            highschoolController.text.isNotEmpty &&
-                            junior_high_schoolController.text.isNotEmpty) {
+                            userIdController.text.isNotEmpty) {
                           String imagePath = '';
                           if (image == null) {
                             imagePath = myAccount.imagePath;

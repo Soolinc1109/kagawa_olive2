@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertwitter/model/account.dart';
 import 'package:fluttertwitter/view/main_page.dart';
 import 'package:fluttertwitter/view/start_up/login_page.dart';
+import 'package:fluttertwitter/view/time_line/front_page.dart';
 import 'package:fluttertwitter/view/time_line/time_line_page.dart';
 
 void main() async {
@@ -35,13 +36,13 @@ class MyApp extends StatelessWidget {
           }
           if (snapshot.hasData) {
             // User が null でなない、つまりサインイン済みのホーム画面へ
-            print(snapshot.data);
+
             return Screen(
               num: 0,
             );
           }
           // User が null である、つまり未サインインのサインイン画面へ
-          return LoginPage();
+          return FrontPage();
         },
       ),
     );
