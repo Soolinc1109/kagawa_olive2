@@ -98,6 +98,9 @@ class _ShiboriPageState extends State<ShiboriPage> {
                       // .orderBy('created_time', descending: true)
 
                       builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return SizedBox();
+                        }
                         List<String> shoplist =
                             List.generate(snapshot.data!.docs.length, (index) {
                           return snapshot.data!.docs[index].id;
@@ -124,10 +127,6 @@ class _ShiboriPageState extends State<ShiboriPage> {
                                       padding: const EdgeInsets.all(3.0),
                                       child: InkWell(
                                         onTap: () {
-                                          print('===========123==============');
-                                          print(shopAccount.id);
-                                          print(
-                                              '=============11113============');
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -144,23 +143,62 @@ class _ShiboriPageState extends State<ShiboriPage> {
                                                   BorderRadius.circular(10)),
                                           child: Column(
                                             children: [
-                                              Container(
-                                                height: 130,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  10),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  10)),
-                                                  child: Image.network(
-                                                    shopAccount.image_path,
-                                                    fit: BoxFit.cover,
+                                              Stack(children: [
+                                                Container(
+                                                  height: 150,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topLeft: Radius
+                                                                .circular(10),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    10)),
+                                                    child: Image.network(
+                                                      shopAccount.image_path,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    child: Container(
+                                                      width: 32,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.red,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(10),
+                                                        ),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 2,
+                                                                horizontal: 4),
+                                                        child: Text(
+                                                          shopAccount
+                                                              .place_string,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 11),
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]),
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),

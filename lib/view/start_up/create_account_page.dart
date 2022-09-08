@@ -203,9 +203,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           if (result is UserCredential) {
                             var _result = createAccaount(result.user!.uid);
                             if (_result is UserCredential) {
-                              // print('============メール送信=============');
-                              // result.user!.sendEmailVerification();
-                              // print('=========================');
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

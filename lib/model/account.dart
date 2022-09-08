@@ -15,6 +15,9 @@ class Account {
   late String likemovie;
   late String likefood;
   late String hobby;
+  late String instagram;
+  late String like_shop;
+  late int like_genre;
   late bool is_shop;
   late String shop_account_id;
 
@@ -38,6 +41,9 @@ class Account {
     this.hobby = '',
     this.is_shop = false,
     this.shop_account_id = '',
+    this.instagram = '',
+    this.like_shop = '',
+    this.like_genre = 0,
     this.createdTime,
     this.updatedTime,
   });
