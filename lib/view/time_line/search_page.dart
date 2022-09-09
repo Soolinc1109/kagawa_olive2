@@ -55,8 +55,8 @@ class _SearchPageState extends State<SearchPage> {
           begin: Alignment(-1.0, 0.0),
           end: Alignment(1.0, 0.0),
           colors: [
-            Color.fromARGB(208, 162, 255, 132),
-            Color.fromARGB(255, 242, 255, 140)
+            Color.fromARGB(208, 136, 255, 96),
+            Color.fromARGB(255, 239, 255, 117)
           ],
           stops: [0.0, 1.0],
         ),
@@ -72,7 +72,6 @@ class _SearchPageState extends State<SearchPage> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Color.fromARGB(0, 255, 255, 255),
-
         appBar: AppBar(
           actions: [Container()],
           automaticallyImplyLeading: false,
@@ -211,7 +210,6 @@ class _SearchPageState extends State<SearchPage> {
                                             crossAxisCount: 2),
                                     itemCount: snapshot.data!.length,
                                     itemBuilder: (context, index) {
-                                      print(snapshot.data!.length);
                                       Shop shopAccount = snapshot.data![index];
                                       return Padding(
                                         padding: const EdgeInsets.all(3.0),
@@ -235,22 +233,65 @@ class _SearchPageState extends State<SearchPage> {
                                                     BorderRadius.circular(10)),
                                             child: Column(
                                               children: [
-                                                Container(
-                                                  height: 140,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.only(
-                                                            topLeft: Radius
-                                                                .circular(10),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    10)),
-                                                    child: Image.network(
-                                                      shopAccount.image_path,
-                                                      fit: BoxFit.cover,
+                                                Stack(children: [
+                                                  Container(
+                                                    height: 150,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topLeft: Radius
+                                                                  .circular(10),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      child: Image.network(
+                                                        shopAccount.image_path,
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: Container(
+                                                        width: 32,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.red,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10),
+                                                          ),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 2,
+                                                                  horizontal:
+                                                                      4),
+                                                          child: Text(
+                                                            shopAccount
+                                                                .place_string,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 11),
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ]),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
@@ -580,166 +621,6 @@ class _SearchPageState extends State<SearchPage> {
             ],
           ),
         ),
-
-        // endDrawer: Drawer(
-        //   child: ListView(
-        //     children: [
-        //       Container(
-        //         height: 80,
-        //         child: DrawerHeader(
-        //           decoration: BoxDecoration(
-        //             color: Color.fromARGB(255, 243, 255, 235),
-        //           ),
-        //           child: Text(
-        //             '条件を指定して探す',
-        //             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-        //             textAlign: TextAlign.center,
-        //           ),
-        //         ),
-        //       ),
-        //       ListTile(
-        //         title: Text('場所'),
-        //         onTap: () {},
-        //       ),
-        //       ListTile(
-        //         title: Text('ジャンル'),
-        //         onTap: () {},
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(22.0),
-        //         child: TextField(
-        //           decoration: InputDecoration(
-        //               filled: false,
-        //               fillColor: Colors.grey.shade200,
-        //               hintText: 'グルメ'),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        //  StreamBuilder<QuerySnapshot>(
-        //     stream: PostFirestore.posts
-        //         .orderBy('created_time', descending: true)
-        //         .snapshots(),
-        //     builder: (context, postSnapshot) {
-        //       if (postSnapshot.hasData) {
-        //         List<String> postAccountIds = [];
-        //         postSnapshot.data!.docs.forEach((doc) {
-        //           Map<String, dynamic> data =
-        //               doc.data() as Map<String, dynamic>;
-        //           if (!postAccountIds.contains(data['post_account_id'])) {
-        //             postAccountIds.add(data['post_account_id']);
-        //           }
-        //         });
-        //         return FutureBuilder<Map<String, Account>?>(
-        //             future: UserFirestore.getPostUserMap(postAccountIds),
-        //             builder: (context, userSnapshot) {
-        //               if (userSnapshot.hasData &&
-        //                   userSnapshot.connectionState ==
-        //                       ConnectionState.done) {
-        //                 return ListView.builder(
-        //                   itemCount: postSnapshot.data!.docs.length,
-        //                   itemBuilder: (context, index) {
-        //                     Map<String, dynamic> data =
-        //                         postSnapshot.data!.docs[index].data()
-        //                             as Map<String, dynamic>;
-        //                     Post post = Post(
-        //                         id: postSnapshot.data!.docs[index].id,
-        //                         content: data['content'],
-        //                         postAccountId: data['post_account_id'],
-        //                         createdTime: data['created_time']);
-        //                     Account postAccount =
-        //                         userSnapshot.data![post.postAccountId]!;
-        //                     return Container(
-        //                       decoration: BoxDecoration(
-        //                           border: index == 0
-        //                               ? Border(
-        //                                   top: BorderSide(
-        //                                       color: Colors.grey, width: 0),
-        //                                   bottom: BorderSide(
-        //                                       color: Colors.grey, width: 0))
-        //                               : Border(
-        //                                   bottom: BorderSide(
-        //                                       color: Colors.grey, width: 0),
-        //                                 )),
-        //                       padding: EdgeInsets.symmetric(
-        //                           horizontal: 10, vertical: 15),
-        //                       child: Row(
-        //                         children: [
-        //                           Padding(
-        //                             padding: const EdgeInsets.only(
-        //                               top: 6,
-        //                               right: 8,
-        //                             ),
-        //                             child: CircleAvatar(
-        //                               radius: 28,
-        //                               foregroundImage:
-        //                                   NetworkImage(postAccount.imagePath),
-        //                             ),
-        //                           ),
-        //                           Expanded(
-        //                             child: Container(
-        //                               child: Column(
-        //                                 crossAxisAlignment:
-        //                                     CrossAxisAlignment.start,
-        //                                 children: [
-        //                                   Row(
-        //                                     mainAxisAlignment:
-        //                                         MainAxisAlignment.spaceBetween,
-        //                                     children: [
-        //                                       Row(
-        //                                         children: [
-        //                                           Text(
-        //                                             postAccount.name,
-        //                                             style: TextStyle(
-        //                                                 fontWeight:
-        //                                                     FontWeight.bold,
-        //                                                 color: Color.fromARGB(
-        //                                                     255, 0, 0, 0)),
-        //                                           ),
-        //                                           Padding(
-        //                                             padding:
-        //                                                 const EdgeInsets.only(
-        //                                                     left: 7),
-        //                                             child: Text(
-        //                                               '@${postAccount.userId}',
-        //                                               style: TextStyle(
-        //                                                   color: Colors.grey),
-        //                                             ),
-        //                                           ),
-        //                                         ],
-        //                                       ),
-        //                                       Text(DateFormat('M/d').format(
-        //                                           post.createdTime!.toDate()))
-        //                                     ],
-        //                                   ),
-        //                                   Text(post.content)
-        //                                 ],
-        //                               ),
-        //                             ),
-        //                           )
-        //                         ],
-        //                       ),
-        //                     );
-        //                   },
-        //                 );
-        //               } else {
-        //                 return Container();
-        //               }
-        //             });
-        //       } else {
-        //         return Container();
-        //       }
-        //     }),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => PostPage()),
-        //     );
-        //   },
-        //   child: Icon(Icons.chat_bubble_outline),
-        // ),
       ),
     );
   }

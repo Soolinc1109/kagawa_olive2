@@ -10,16 +10,16 @@ import 'package:fluttertwitter/view/start_up/login_page.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditAccountPage extends StatefulWidget {
-  const EditAccountPage({Key? key}) : super(key: key);
+  final Account myaccount;
+  const EditAccountPage({Key? key, required this.myaccount}) : super(key: key);
 
   @override
   _EditAccountPageState createState() => _EditAccountPageState();
 }
 
 class _EditAccountPageState extends State<EditAccountPage> {
-  int? isSelectedtype = 1;
-
-  var myAccount = Authentication.myAccount!; //初期段階で編集画面に内容を追加する
+  String? isSelectedtype = '観光客';
+  // var myAccount = Authentication.myAccount!; //初期段階で編集画面に内容を追加する
   TextEditingController nameController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
   TextEditingController selfIntroductionController = TextEditingController();
@@ -37,7 +37,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
   ImageProvider getImage() {
     if (image == null) {
-      return NetworkImage(myAccount.imagePath);
+      return NetworkImage(widget.myaccount.imagePath);
     } else {
       return FileImage(image!);
     }
@@ -46,20 +46,25 @@ class _EditAccountPageState extends State<EditAccountPage> {
   @override //初期段階で編集画面に内容を追加する
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: myAccount.name);
-    userIdController = TextEditingController(text: myAccount.userId);
+    nameController = TextEditingController(text: widget.myaccount.name);
+    userIdController = TextEditingController(text: widget.myaccount.userId);
     selfIntroductionController =
-        TextEditingController(text: myAccount.selfIntroduction);
-    universalController = TextEditingController(text: myAccount.universal);
-    highschoolController = TextEditingController(text: myAccount.highschool);
+        TextEditingController(text: widget.myaccount.selfIntroduction);
+    universalController =
+        TextEditingController(text: widget.myaccount.universal);
+    highschoolController =
+        TextEditingController(text: widget.myaccount.highschool);
     junior_high_schoolController =
-        TextEditingController(text: myAccount.junior_high_school);
-    sanukibenController = TextEditingController(text: myAccount.sanukiben);
-    kagawarekiController = TextEditingController(text: myAccount.kagawareki);
-    zokuseiController = TextEditingController(text: myAccount.zokusei);
-    likemovieController = TextEditingController(text: myAccount.likemovie);
-    likefoodController = TextEditingController(text: myAccount.likefood);
-    hobbyController = TextEditingController(text: myAccount.hobby);
+        TextEditingController(text: widget.myaccount.junior_high_school);
+    sanukibenController =
+        TextEditingController(text: widget.myaccount.sanukiben);
+    kagawarekiController =
+        TextEditingController(text: widget.myaccount.kagawareki);
+    zokuseiController = TextEditingController(text: widget.myaccount.zokusei);
+    likemovieController =
+        TextEditingController(text: widget.myaccount.likemovie);
+    likefoodController = TextEditingController(text: widget.myaccount.likefood);
+    hobbyController = TextEditingController(text: widget.myaccount.hobby);
   }
 
   @override
@@ -129,74 +134,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 60,
-                            child: Column(
-                              children: [
-                                Text('ユーザーID'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            width: 220,
-                            child: TextField(
-                                controller: userIdController,
-                                decoration: InputDecoration(
-                                    hintText: 'ユーザーID',
-                                    hintStyle: TextStyle(
-                                        color: Color.fromARGB(
-                                            255, 185, 185, 185))),
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[a-zA-Z0-9@_.]')),
-                                ]),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 60,
-                            child: Column(
-                              children: [
-                                Text('自己紹介'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            width: 220,
-                            child: TextField(
-                              controller: selfIntroductionController,
-                              decoration: InputDecoration(
-                                  hintText: '自己紹介',
-                                  hintStyle: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 185, 185, 185))),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                   Padding(
@@ -380,143 +317,58 @@ class _EditAccountPageState extends State<EditAccountPage> {
                           SizedBox(
                             width: 10,
                           ),
-                          // DropdownButton(
-                          //   //4
-                          //   underline: Container(
-                          //     height: 1,
-                          //     color: Colors.red,
-                          //   ),
-                          //   isExpanded: true,
-                          //   items: const [
-                          //     //5
-                          //     DropdownMenuItem(
-                          //       child: Text(
-                          //         '定住者',
-                          //         style: TextStyle(fontSize: 19),
-                          //       ),
-                          //       value: 1,
-                          //     ),
-                          //     DropdownMenuItem(
-                          //       child: Text(
-                          //         '移住者',
-                          //         style: TextStyle(fontSize: 19),
-                          //       ),
-                          //       value: 2,
-                          //     ),
-
-                          //     DropdownMenuItem(
-                          //       child: Text(
-                          //         '観光客',
-                          //         style: TextStyle(fontSize: 19),
-                          //       ),
-                          //       value: 3,
-                          //     ),
-                          //   ],
-                          //   //6
-                          //   onChanged: (int? value) {
-                          //     setState(() {
-                          //       isSelectedtype = value;
-                          //     });
-                          //   },
-                          //   //7
-                          //   value: isSelectedtype,
-                          // )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 60,
+                          Center(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('好きな　映画'),
+                                //3
+                                SizedBox(
+                                  width: 240,
+                                  child: DropdownButton(
+                                    //4
+                                    underline: Container(
+                                      height: 1,
+                                      color: Colors.red,
+                                    ),
+                                    isExpanded: true,
+                                    items: const [
+                                      //5
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          '観光客',
+                                          style: TextStyle(fontSize: 19),
+                                        ),
+                                        value: '観光客',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          '移住者',
+                                          style: TextStyle(fontSize: 19),
+                                        ),
+                                        value: '移住者',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          '定住者',
+                                          style: TextStyle(fontSize: 19),
+                                        ),
+                                        value: '定住者',
+                                      )
+                                    ],
+                                    //6
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        isSelectedtype = value;
+                                      });
+                                    },
+                                    //7
+                                    value: isSelectedtype,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 2,
+                                ),
                               ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: 220,
-                            child: TextField(
-                              controller: likemovieController,
-                              decoration: InputDecoration(
-                                  hintText: 'ホームアローン',
-                                  hintStyle: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 185, 185, 185))),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 60,
-                            child: Column(
-                              children: [
-                                Text('好きな　食べ物'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: 220,
-                            child: TextField(
-                              controller: likefoodController,
-                              decoration: InputDecoration(
-                                  hintText: 'うどん',
-                                  hintStyle: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 185, 185, 185))),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 60,
-                            child: Column(
-                              children: [
-                                Text('趣味'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: 220,
-                            child: TextField(
-                              controller: hobbyController,
-                              decoration: InputDecoration(
-                                  hintText: '旅行',
-                                  hintStyle: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 185, 185, 185))),
                             ),
                           ),
                         ],
@@ -531,18 +383,17 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   // 情報を更新
                   ElevatedButton(
                       onPressed: () async {
-                        if (nameController.text.isNotEmpty &&
-                            userIdController.text.isNotEmpty) {
+                        if (nameController.text.isNotEmpty) {
                           String imagePath = '';
                           if (image == null) {
-                            imagePath = myAccount.imagePath;
+                            imagePath = widget.myaccount.imagePath;
                           } else {
                             var result = await FunctionUtils.upLoadImage(
-                                myAccount.id, image!);
+                                widget.myaccount.id, image!);
                             imagePath = result;
                           }
                           Account updateAccount = Account(
-                              id: myAccount.id,
+                              id: widget.myaccount.id,
                               name: nameController.text,
                               userId: userIdController.text,
                               selfIntroduction: selfIntroductionController.text,
@@ -552,14 +403,12 @@ class _EditAccountPageState extends State<EditAccountPage> {
                                   junior_high_schoolController.text,
                               sanukiben: sanukibenController.text,
                               kagawareki: kagawarekiController.text,
-                              zokusei: zokuseiController.text,
+                              zokusei: isSelectedtype.toString(),
                               likemovie: likemovieController.text,
                               likefood: likefoodController.text,
                               hobby: hobbyController.text,
                               imagePath: imagePath); // Account
 
-                          Authentication.myAccount = updateAccount;
-                          myAccount = updateAccount;
                           var result =
                               await UserFirestore.updateUser(updateAccount);
                           if (result == true) {

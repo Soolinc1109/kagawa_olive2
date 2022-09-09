@@ -67,50 +67,6 @@ class _FrontPageState extends State<FrontPage> {
                         ),
                       ),
                     ),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.all(25.0),
-                    //   child: Text(
-                    //     'ログイン情報を入力',
-                    //     style: TextStyle(
-                    //         fontSize: 22, fontWeight: FontWeight.bold),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    //   child: Container(
-                    //     width: 300,
-                    //     child: TextField(
-                    //       controller: emailController,
-                    //       decoration: InputDecoration(
-                    //           hintText: 'メールアドレス',
-                    //           filled: true,
-                    //           fillColor: Colors.white,
-                    //           border: OutlineInputBorder(
-                    //             borderRadius: BorderRadius.circular(10),
-                    //             borderSide: BorderSide.none,
-                    //           )),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    //   child: Container(
-                    //     width: 300,
-                    //     child: TextField(
-                    //       controller: passController,
-                    //       decoration: InputDecoration(
-                    //           hintText: 'パスワード',
-                    //           filled: true,
-                    //           fillColor: Colors.white,
-                    //           border: OutlineInputBorder(
-                    //             borderRadius: BorderRadius.circular(10),
-                    //             borderSide: BorderSide.none,
-                    //           )),
-                    //     ),
-                    //   ),
-                    // ),
-
                     Container(
                       alignment: Alignment.center,
                       child: Text('instagramを使って\nお店を宣伝して割引してもらおう！',
@@ -287,29 +243,6 @@ class _FrontPageState extends State<FrontPage> {
                                 ),
                               ),
                               onPressed: () {
-                                // showDialog(
-                                //     context: context,
-                                //     builder: (context) {
-                                //       return Column(
-                                //         children: <Widget>[
-                                //           AlertDialog(
-                                //             title: Text("同意画面"),
-                                //             content: SingleChildScrollView(
-                                //               child: ListBody(
-                                //                 children: <Widget>[
-                                //                   Column(
-                                //                       // コンテンツ
-                                //                       ),
-                                //                 ],
-                                //               ),
-                                //             ),
-                                //             actions: <Widget>[
-                                //               // ボタン
-                                //             ],
-                                //           ),
-                                //         ],
-                                //       );
-                                //     });
                                 if (_isChecked == true) {
                                   showDialog(
                                       context: context,
@@ -360,10 +293,8 @@ class _FrontPageState extends State<FrontPage> {
                                                               //エラーの処理
                                                               return;
                                                             }
-
-                                                           
                                                             await Navigator
-                                                                .pushReplacement(
+                                                                .pushAndRemoveUntil(
                                                               context,
                                                               MaterialPageRoute(
                                                                   builder:
@@ -372,10 +303,34 @@ class _FrontPageState extends State<FrontPage> {
                                                                             num:
                                                                                 1,
                                                                           )),
+                                                              ((route) =>
+                                                                  false),
                                                             );
                                                             //   return;
                                                             // }
-                                                          })
+                                                          }),
+                                                          ElevatedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                final userCredential =
+                                                                    await Authentication()
+                                                                        .signInWithApple();
+
+                                                                await Navigator
+                                                                    .pushAndRemoveUntil(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              Screen(
+                                                                                num: 1,
+                                                                              )),
+                                                                  ((route) =>
+                                                                      false),
+                                                                );
+                                                              },
+                                                              child: Text(
+                                                                  'applelogin'))
                                                         ],
                                                       ),
                                                     ],

@@ -90,10 +90,9 @@ class _GenreLinePageState extends State<GenreLinePage> {
                       // .orderBy('created_time', descending: true)
 
                       builder: (context, snapshot) {
-                        print(snapshot);
-                        print(snapshot.data);
-                        print(widget.category.id);
-                        print('=========================');
+                        if (!snapshot.hasData) {
+                          return SizedBox();
+                        }
                         List<String> shoplist =
                             List.generate(snapshot.data!.docs.length, (index) {
                           return snapshot.data!.docs[index].id;

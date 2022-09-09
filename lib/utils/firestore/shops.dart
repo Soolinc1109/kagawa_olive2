@@ -1,14 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertwitter/model/account.dart';
 import 'package:fluttertwitter/model/menu.dart';
 import 'package:fluttertwitter/model/shop.dart';
+import 'package:fluttertwitter/model/visitUsers.dart';
 import 'package:fluttertwitter/utils/authentication.dart';
 
 class ShopFirestore {
   static final _firestoreInstance = FirebaseFirestore.instance;
   static final CollectionReference shops =
       _firestoreInstance.collection('shops');
+  static final CollectionReference users =
+      _firestoreInstance.collection('users');
 
   // static Future<dynamic> setUser(Shop newAccount) async {
   //   try {
@@ -60,7 +64,6 @@ class ShopFirestore {
             break;
         }
 
-        print(data['menu_genre3']);
         Shop shop = Shop(
             id: sid[i],
             shop_name: data['shop_name'],
@@ -92,15 +95,13 @@ class ShopFirestore {
   static Future<List<Shop>?> getGenreShops(
       List<String> sid, String genreId) async {
     String? basho;
-
     List<Shop> shopGenreList = [];
-    print(genreId);
     try {
       var snapshot = await shops.where('category', isEqualTo: genreId).get();
       var docs = snapshot.docs;
 
       for (int i = 0; i < docs.length; i++) {
-        DocumentSnapshot documentSnapshot = await shops.doc(sid[i]).get();
+        final documentSnapshot = await shops.doc(sid[i]).get();
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
         if (data['place'] == 1) {
@@ -126,7 +127,6 @@ class ShopFirestore {
             updatedTime: data['updated_time']);
         shopGenreList.add(shop);
       }
-
       print('ジャンルごとのお店取得完了');
       return shopGenreList;
     } on FirebaseException catch (e) {
@@ -159,9 +159,9 @@ class ShopFirestore {
   }
 
   static Future<List<Menu>?> getShopMenu(String sid, int menuNum) async {
-    CollectionReference doc = await shops.doc(sid).collection('menu');
+    final doc = await shops.doc(sid).collection('menu');
 
-    final QuerySnapshot querySnapshot =
+    final querySnapshot =
         await doc.where('menu_genre_num', isEqualTo: menuNum).get();
     final queryDocSnapshot = querySnapshot.docs;
 
@@ -293,6 +293,88 @@ class ShopFirestore {
       print('お店情報取得失敗');
       return null;
       //ログイン時にfirestoreからユーザーの情報を取得
+    }
+  }
+
+  static Future<List<Account>?> getVisitUsersFromIds(List<String> uid) async {
+    try {
+      List<Account> userList = [];
+      for (final id in uid) {
+        final doc = await users.doc(id).get();
+        final data = doc.data() as Map<String, dynamic>?;
+        if (data == null) {
+          return null;
+        }
+        final user = Account(
+            id: id,
+            name: data['name'],
+            userId: data['user_id'],
+            selfIntroduction: data['self_introduction'],
+            imagePath: data['image_path'],
+            universal: data['universal'],
+            highschool: data['highschool'],
+            junior_high_school: data['junior_high_school'],
+            sanukiben: data['sanukiben'],
+            kagawareki: data['kagawareki'],
+            zokusei: data['zokusei'],
+            likemovie: data['likemovie'],
+            likefood: data['likefood'],
+            hobby: data['hobby'],
+            // like_shop: data['like_shop'],
+            // instagram: data['instagram'],
+            // like_genre: data['like_genre'],
+            createdTime: data['created_time'],
+            updatedTime: data['updated_time']);
+        userList.add(user);
+      }
+      print('ユーザー取得完了');
+      return userList;
+    } on FirebaseException catch (e) {
+      print('ユーザー情報取得失敗');
+      return null;
+      //ログイン時にfirestoreからユーザーの情報を取得
+    }
+  }
+
+  static Future<bool> AddVisitUser(String sid, VisitUser visit) async {
+    try {
+      final visitUser = shops.doc(sid).collection('visit_user');
+      final DocumentReference = await visitUser.doc(visit.user_id).set({
+        'visit_time': Timestamp.now(),
+        'user_id': visit.user_id,
+        'is_nice': false,
+      });
+      print('来店者追加');
+      return true;
+    } catch (e) {
+      print('エラー$e');
+      return false;
+    }
+  }
+
+  static Future<bool> removeVisitUser(String sid, String uid) async {
+    try {
+      final visitUser = shops.doc(sid).collection('visit_user');
+      final DocumentReference = await visitUser.doc(uid).delete();
+      print('来店者削除');
+      return true;
+    } catch (e) {
+      print('エラー$e');
+      return false;
+    }
+  }
+
+  static Future<bool> permitedVisiter(String uid, String sid) async {
+    try {
+      final visitUser = shops.doc(uid).collection('visit_user');
+      final DocumentReference = await visitUser.doc(sid).update({
+        'is_nice': true,
+      });
+      print('お客を許可');
+      return true;
+    } catch (e) {
+      print('エラー$e');
+      return false;
     }
   }
 }

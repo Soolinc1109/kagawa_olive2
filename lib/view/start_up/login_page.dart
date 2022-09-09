@@ -41,25 +41,6 @@ class _LoginPageState extends State<LoginPage> {
                 return Container(
                   width: double.infinity,
                   child: Column(children: [
-                    SizedBox(height: 110),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: SizedBox(
-                        height: 0,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FrontPage()),
-                            );
-                          },
-                          child: Container(
-                            child: Text(''),
-                          ),
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.all(25.0),
                       child: Text(
@@ -125,11 +106,12 @@ class _LoginPageState extends State<LoginPage> {
                               final _result = await UserFirestore.getUserInfo(
                                   result.user!.uid);
                               if (_result is Account) {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Screen(
-                                            num: 0)));
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Screen(num: 0)),
+                                  (route) => false,
+                                );
                               }
                             } else {
                               showDialog(

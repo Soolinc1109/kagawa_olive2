@@ -37,7 +37,7 @@ class PostFirestore {
     try {
       //postsとmypostsのIDの一致を確認
       for (String id in ids) {
-        DocumentSnapshot<Object?> doc = await posts.doc(id).get();
+        final doc = await posts.doc(id).get();
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         Post post = Post(
             id: doc.id,

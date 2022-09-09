@@ -6,6 +6,7 @@ import 'package:fluttertwitter/model/account.dart';
 import 'package:fluttertwitter/utils/authentication.dart';
 import 'package:fluttertwitter/view/account/account_page.dart';
 import 'package:fluttertwitter/view/time_line/front_page.dart';
+import 'package:fluttertwitter/view/time_line/notification.dart';
 import 'package:fluttertwitter/view/time_line/post_page.dart';
 import 'package:fluttertwitter/view/time_line/search_page.dart';
 import 'package:fluttertwitter/view/time_line/shop_page.dart';
@@ -24,11 +25,6 @@ class Screen extends StatefulWidget {
 class _ScreenState extends State<Screen> {
   @override
   int selectedIndex = 0;
-  List<Widget> pageList = [
-    TimeLinePage(),
-    SearchPage(),
-    AccountPage(),
-  ];
 
   @override
   void initState() {
@@ -54,7 +50,11 @@ class _ScreenState extends State<Screen> {
             return FrontPage();
           }
           return Scaffold(
-            body: pageList[selectedIndex],
+            body: [
+              TimeLinePage(),
+              account.is_shop ? NotificationPage() : SearchPage(),
+              AccountPage(),
+            ][selectedIndex],
             bottomNavigationBar: Container(
               decoration: BoxDecoration(boxShadow: <BoxShadow>[
                 BoxShadow(
@@ -69,8 +69,11 @@ class _ScreenState extends State<Screen> {
                   items: [
                     BottomNavigationBarItem(
                         icon: Icon(Icons.home_outlined), label: 'ホーム'),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.search), label: '探す'),
+                    account.is_shop
+                        ? BottomNavigationBarItem(
+                            icon: Icon(Icons.notification_add), label: '通知')
+                        : BottomNavigationBarItem(
+                            icon: Icon(Icons.search), label: '探す'),
                     account.is_shop
                         ? BottomNavigationBarItem(
                             icon: Icon(Icons.people),

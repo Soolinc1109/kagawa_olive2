@@ -49,4 +49,25 @@ class CategoryFirestore {
     print('カテゴリー情報の取得完了');
     return categoryList;
   }
+
+  static Future<Category?> getCategorie(int num) async {
+    var categorySnapshot = await categories.where('num', isEqualTo: num).get();
+
+    final docs = categorySnapshot.docs;
+
+    final data = docs[0].data() as Map<String, dynamic>?;
+    // List<String> dataEra = data['era'] as List<String>;
+    if (data == null) {
+      return null;
+    }
+    Category cate = Category(
+      num: data['num'],
+      categoryName: data['categoryName'],
+      id: docs[0].id,
+      image_path: data['image_path'],
+    );
+
+    print('カテゴリー情報の取得完了');
+    return cate;
+  }
 }
