@@ -14,6 +14,7 @@ class Shop {
   late List<dynamic>? menu_genre2;
   late List<dynamic>? menu_genre3;
   late int place;
+  late int olive;
   late String place_string;
   int? selectedOption;
   Timestamp? createdTime;
@@ -33,6 +34,7 @@ class Shop {
       this.updatedTime,
       this.selectedOption,
       this.place = 1,
+      this.olive = 0,
       this.place_string = '高松',
       this.menu_genre1,
       this.menu_genre2,

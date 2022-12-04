@@ -37,7 +37,7 @@ class ShopFirestore {
       List<Shop> _shopList = [];
       String? basho;
       for (int i = 0; i < sid.length; i++) {
-        DocumentSnapshot documentSnapshot = await shops.doc(sid[i]).get();
+        final documentSnapshot = await shops.doc(sid[i]).get();
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
         switch (data['place']) {
@@ -72,6 +72,7 @@ class ShopFirestore {
             selfIntroduction: data['selfIntroduction'],
             image_path: data['image_path'],
             instagram: data['instagram'],
+            olive: data['olive'],
             googlemap: data['googlemap'],
             service: data['service'],
             place: data['place'],
@@ -119,6 +120,7 @@ class ShopFirestore {
             instagram: data['instagram'],
             googlemap: data['googlemap'],
             service: data['service'],
+            olive: data['olive'],
             place: data['place'],
             createdTime: data['created_time'],
             menu_genre1: data['menu_genre1'],

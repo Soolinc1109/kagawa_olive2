@@ -815,26 +815,26 @@ class _ShopPageState extends State<ShopPage> {
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                              Row(
-                                                                                children: [
-                                                                                  Text(
-                                                                                    "上記の内容をきちんと読みましたか？",
-                                                                                    textAlign: TextAlign.start,
-                                                                                  ),
-                                                                                  Checkbox(
-                                                                                    value: _isChecked, //「bool _isChecked = false;」を定義済み
-                                                                                    onChanged: (value) {
-                                                                                      print('=========================');
-                                                                                      print(value);
-                                                                                      setState(() {
-                                                                                        print('=========================');
-                                                                                        _isChecked = value!;
-                                                                                      });
-                                                                                    },
-                                                                                    activeColor: Color.fromARGB(255, 255, 209, 3),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
+                                                                              // Row(
+                                                                              //   children: [
+                                                                              //     Text(
+                                                                              //       "上記の内容をきちんと読みましたか？",
+                                                                              //       textAlign: TextAlign.start,
+                                                                              //     ),
+                                                                              //     Checkbox(
+                                                                              //       value: _isChecked, //「bool _isChecked = false;」を定義済み
+                                                                              //       onChanged: (value) {
+                                                                              //         print('=========================');
+                                                                              //         print(value);
+                                                                              //         setState(() {
+                                                                              //           print('=========================');
+                                                                              //           _isChecked = value!;
+                                                                              //         });
+                                                                              //       },
+                                                                              //       activeColor: Color.fromARGB(255, 255, 209, 3),
+                                                                              //     ),
+                                                                              //   ],
+                                                                              // ),
                                                                               Padding(
                                                                                 padding: const EdgeInsets.all(8.0),
                                                                                 child: Container(
@@ -1477,29 +1477,29 @@ class _ShopPageState extends State<ShopPage> {
                                                                                 SizedBox(
                                                                                   height: 20,
                                                                                 ),
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets.all(8.0),
-                                                                                  child: Row(
-                                                                                    children: [
-                                                                                      Text(
-                                                                                        "上記の内容？",
-                                                                                        textAlign: TextAlign.start,
-                                                                                      ),
-                                                                                      Checkbox(
-                                                                                        value: _isChecked, //「bool _isChecked = false;」を定義済み
-                                                                                        onChanged: (value) {
-                                                                                          print('=========================');
-                                                                                          setState(() {
-                                                                                            print('=========================');
-                                                                                            _isChecked = value!;
-                                                                                            print('=========================');
-                                                                                          });
-                                                                                        },
-                                                                                        activeColor: Color.fromARGB(255, 255, 209, 3),
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
+                                                                                // Padding(p
+                                                                                //   padding: const EdgeInsets.all(8.0),
+                                                                                //   child: Row(
+                                                                                //     children: [
+                                                                                //       Text(
+                                                                                //         "上記の内容？",
+                                                                                //         textAlign: TextAlign.start,
+                                                                                //       ),
+                                                                                //       Checkbox(
+                                                                                //         value: _isChecked, //「bool _isChecked = false;」を定義済み
+                                                                                //         onChanged: (value) {
+                                                                                //           print('=========================');
+                                                                                //           setState(() {
+                                                                                //             print('=========================');
+                                                                                //             _isChecked = value!;
+                                                                                //             print('=========================');
+                                                                                //           });
+                                                                                //         },
+                                                                                //         activeColor: Color.fromARGB(255, 255, 209, 3),
+                                                                                //       ),
+                                                                                //     ],
+                                                                                //   ),
+                                                                                // ),
                                                                                 Padding(
                                                                                   padding: const EdgeInsets.all(8.0),
                                                                                   child: Container(
@@ -1517,17 +1517,8 @@ class _ShopPageState extends State<ShopPage> {
                                                                                             user_id: myAccount.id,
                                                                                           );
                                                                                           final result = await ShopFirestore.AddVisitUser(widget.shopinfo!.id, visitUserInfo);
-                                                                                          print(myAccount.id);
                                                                                           final resultuser = await UserFirestore.AddVisitShop(myAccount.id, widget.shopinfo!.id);
                                                                                           if (result == true) {
-                                                                                            // Navigator
-                                                                                            //     .push(
-                                                                                            //   context,
-                                                                                            //   MaterialPageRoute(
-                                                                                            //       builder: (context) =>
-                                                                                            //           SplashPage()),
-                                                                                            // );
-
                                                                                             showDialog(
                                                                                                 context: context,
                                                                                                 builder: (context) {

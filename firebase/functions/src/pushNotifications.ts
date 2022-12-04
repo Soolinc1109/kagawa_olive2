@@ -1,11 +1,13 @@
 import { messaging , firestore } from 'firebase-admin';
+import * as functions from 'firebase-functions'
 
-export const sendePushNotification = async (userId: string, title: string, body: string) =>{
+export const sendPushNotification = async (userId: string, title: string, body: string) =>{
     const db = firestore()
-    const tokensSnapshot = await db.collection('shops').doc(userId).collection('tokens').get()
+    const tokensSnapshot = await db.collection('users').doc(userId).collection('').get()
     const tokens = tokensSnapshot.docs.map(doc => doc.id)
-
+    functions.logger.info(`トークン取得完了${tokens}`)
     const ms = messaging()
+    functions.logger.info(`送信`)
     await ms.sendAll(tokens.map(token => ({
         token: token,
         notification:{
@@ -15,49 +17,18 @@ export const sendePushNotification = async (userId: string, title: string, body:
     })))
 }
 
-export const resisterTokensToTopic = async (token: string,topic:string) => {
-    const ms = messaging()
-    return ms.subscribeToTopic(token,topic)
-}
-
-
-export const sendPushNotificationToTopic = async (topic:string,body:string) => {
-    const ms = messaging()
-    await ms.sendToTopic(topic, {
-        notification: {
-            body:body,
-        }
-    })
-}
-
-
-import * as admin from 'firebase-admin'
-import * as functions from 'firebase-functions'
-import { topic } from 'firebase-functions/v1/pubsub';
-
-export const pushNotifications = functions
+export const onCreateVisitUser = functions
     .region(`asia-northeast1`)
-    .firestore.document(`/visit_user/{deactivateUserRequestId}`)
+    .firestore.document(`/shops/{shopId}/visit_user/{visitUserId}`)
     .onCreate(async (snapshot, context) => {
-        const options = {
-            priority: "high",
-          };
-        
-        const token = "FCMToken";
-        const payload = {
-          notification: {
-            title: "プッシュタイトル",
-            body: "内容",
-            badge: "1",             //バッジ数  
-            sound:"default"         //プッシュ通知音
-          }
-        };
+        functions.logger.info(`onCreateVisitUser関数発火`)
         const data = snapshot.data()
-        const uid = data.uid
+        const userId = data.user_id
+        const title = '通知が来ました'
+        const body = 'PR依頼'
         try {
-            await admin.messaging().sendToDevice(token, payload, options)
+            await sendPushNotification(userId, title, body)
         } catch (e) {
-            functions.logger.info(`push通知失敗 ${uid}`)
+            functions.logger.error(`通知送信失敗 ${e} ${userId}`)
         }
     })
-

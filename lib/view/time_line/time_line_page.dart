@@ -222,11 +222,10 @@ class _TimeLinePageState extends State<TimeLinePage> {
                         StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('shops')
-                                .orderBy('created_time', descending: true)
+                                .where('olive', isEqualTo: 1)
                                 .snapshots(),
                             // .collection('my_user_post')
                             // .orderBy('created_time', descending: true)
-
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) {
                                 return SizedBox();
@@ -261,7 +260,6 @@ class _TimeLinePageState extends State<TimeLinePage> {
                                         itemBuilder: (context, index) {
                                           Shop shopAccount =
                                               snapshot.data![index];
-
                                           return Padding(
                                             padding: const EdgeInsets.all(2.0),
                                             child: InkWell(
