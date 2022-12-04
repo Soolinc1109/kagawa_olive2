@@ -9,6 +9,7 @@ import 'package:fluttertwitter/utils/firestore/users.dart';
 import 'package:fluttertwitter/view/main_page.dart';
 import 'package:fluttertwitter/view/start_up/create_account_page.dart';
 import 'package:fluttertwitter/view/start_up/login_page.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //ログイン関連の整理整頓
@@ -309,28 +310,51 @@ class _FrontPageState extends State<FrontPage> {
                                                             //   return;
                                                             // }
                                                           }),
-                                                          ElevatedButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                final userCredential =
-                                                                    await Authentication()
-                                                                        .signInWithApple();
+                                                          SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          SignInWithAppleButton(
+                                                            onPressed:
+                                                                () async {
+                                                              final credential =
+                                                                  await SignInWithApple
+                                                                      .getAppleIDCredential(
+                                                                scopes: [
+                                                                  AppleIDAuthorizationScopes
+                                                                      .email,
+                                                                  AppleIDAuthorizationScopes
+                                                                      .fullName,
+                                                                ],
+                                                              );
 
-                                                                await Navigator
-                                                                    .pushAndRemoveUntil(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              Screen(
-                                                                                num: 1,
-                                                                              )),
-                                                                  ((route) =>
-                                                                      false),
-                                                                );
-                                                              },
-                                                              child: Text(
-                                                                  'applelogin'))
+                                                              print(credential);
+
+                                                              // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+                                                              // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                                                            },
+                                                          )
+                                                          // ElevatedButton(
+                                                          //     onPressed:
+                                                          //         () async {
+                                                          //       final userCredential =
+                                                          //           await Authentication()
+                                                          //               .signInWithApple();
+
+                                                          //       await Navigator
+                                                          //           .pushAndRemoveUntil(
+                                                          //         context,
+                                                          //         MaterialPageRoute(
+                                                          //             builder:
+                                                          //                 (context) =>
+                                                          //                     Screen(
+                                                          //                       num: 1,
+                                                          //                     )),
+                                                          //         ((route) =>
+                                                          //             false),
+                                                          //       );
+                                                          //     },
+                                                          //     child: Text(
+                                                          //         'appleサインイン'))
                                                         ],
                                                       ),
                                                     ],

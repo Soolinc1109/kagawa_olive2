@@ -1,7 +1,7 @@
 name: fluttertwitter
 description: A new Flutter project.
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -12,13 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   cupertino_icons: ^1.0.2
   intl: any
   image_picker: ^0.8.5
   firebase_core: ^1.21.1
   firebase_auth: ^3.3.13
-  firebase_storage: ^10.3.7  
+  firebase_storage: ^10.3.7
   cloud_firestore: ^3.1.11
   flutter_svg: ^1.1.0
   adobe_xd: ^2.0.1
@@ -36,21 +35,21 @@ dependencies:
   flutter_signin_button: ^2.0.0
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.1
+  firebase_messaging: ^13.0.1
 
 dev_dependencies:
- flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.10.0
 
 flutter_icons:
   android: true
   ios: true
-  image_path: 'images/oliveicon.png'
+  image_path: "images/oliveicon.png"
   remove_alpha_ios: true
   min_sdk_android: 21
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^1.0.0
-
 
 flutter:
   uses-material-design: true

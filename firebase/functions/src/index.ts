@@ -27,8 +27,10 @@ admin.initializeApp({
  * admin.initializeApp() の順序の問題でデプロイに失敗するため。
 *  */
 import { onCreateDeactivateUserRequest } from './onCreateDeactivateUserRequest'
+import { onCreateVisitUser } from './pushNotifications'
 
 /** index.ts で import してデプロイする関数一覧  */
 export {
-    onCreateDeactivateUserRequest
+    onCreateDeactivateUserRequest,
+    onCreateVisitUser
 }

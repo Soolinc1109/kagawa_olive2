@@ -102,6 +102,8 @@ class _VistShopPageState extends State<VistShopPage> {
                           if (!snapshot.hasData) {
                             return SizedBox();
                           }
+                          final visitShop = snapshot.data!.docs;
+                          print(visitShop.length);
                           final shopList = List.generate(
                               snapshot.data!.docs.length, (index) {
                             return snapshot.data!.docs[index].id;
@@ -121,132 +123,151 @@ class _VistShopPageState extends State<VistShopPage> {
                                   if (!snapshot.hasData) {
                                     return SizedBox();
                                   }
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    primary: false,
-                                    itemCount: snapshot.data!.length,
-                                    itemBuilder: (context, index) {
-                                      final shopAccount = snapshot.data![index];
-                                      return Padding(
-                                        padding: const EdgeInsets.all(3.0),
-                                        child: InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ShopPage(
-                                                        shopinfo: shopAccount,
-                                                      )),
-                                            );
-                                          },
-                                          child: Container(
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      height: 60,
-                                                      width: 60,
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                bottomRight: Radius
-                                                                    .circular(
-                                                                        10)),
-                                                        child: Image.network(
-                                                          shopAccount
-                                                              .image_path,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Column(
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(3.0),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(
-                                                                shopAccount
-                                                                    .shop_name,
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        12),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                              ),
-                                                              Text(
-                                                                'に行きました',
-                                                                style: TextStyle(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            64,
-                                                                            64,
-                                                                            64),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        10),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                              ),
-                                                            ],
+                                  return SingleChildScrollView(
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      primary: false,
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        final shopAccount =
+                                            snapshot.data![index];
+                                        return Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ShopPage(
+                                                          shopinfo: shopAccount,
+                                                        )),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        height: 60,
+                                                        width: 60,
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.only(
+                                                              topLeft: Radius
+                                                                  .circular(10),
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              bottomLeft: Radius
+                                                                  .circular(10),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                          child: Image.network(
+                                                            shopAccount
+                                                                .image_path,
+                                                            fit: BoxFit.cover,
                                                           ),
                                                         ),
-                                                        // Padding(
-                                                        //   padding:
-                                                        //       const EdgeInsets
-                                                        //               .only(
-                                                        //           right: 10,
-                                                        //           bottom: 0),
-                                                        //   child: Text(
-                                                        //     userAccount
-                                                        //         .likefood,
-                                                        //     style: TextStyle(
-                                                        //         fontWeight:
-                                                        //             FontWeight
-                                                        //                 .bold,
-                                                        //         fontSize: 16),
-                                                        //   ),
-                                                        // ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                                      ),
+                                                      FutureBuilder<
+                                                              List<
+                                                                  VisitShop>?>(
+                                                          future: UserFirestore
+                                                              .getPrShop(
+                                                                  uid: widget
+                                                                      .myInfo
+                                                                      .id),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return SizedBox();
+                                                            }
+                                                            final userinfo =
+                                                                snapshot
+                                                                    .data![0];
+
+                                                            return Expanded(
+                                                              child: Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            3.0),
+                                                                    child:
+                                                                        Row(
+                                                                      children: [
+                                                                        // userinfo.visit_time ==
+                                                                        //         null
+                                                                        //     ? Text(
+                                                                        //         '?')
+                                                                        //     : Text(
+                                                                        //         DateFormat('MM-dd').format(userinfo.visit_time!.toDate()).toString(),
+                                                                        //         style:
+                                                                        //             TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                                                                        //         textAlign:
+                                                                        //             TextAlign.left,
+                                                                        //       ),
+                                                                        Text(
+                                                                          shopAccount.shop_name,
+                                                                          style:
+                                                                              TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                        ),
+                                                                        Text(
+                                                                          'に行きました',
+                                                                          style: TextStyle(
+                                                                              color: Color.fromARGB(255, 64, 64, 64),
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 10),
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  // Padding(
+                                                                  //   padding:
+                                                                  //       const EdgeInsets
+                                                                  //               .only(
+                                                                  //           right: 10,
+                                                                  //           bottom: 0),
+                                                                  //   child: Text(
+                                                                  //     userAccount
+                                                                  //         .likefood,
+                                                                  //     style: TextStyle(
+                                                                  //         fontWeight:
+                                                                  //             FontWeight
+                                                                  //                 .bold,
+                                                                  //         fontSize: 16),
+                                                                  //   ),
+                                                                  // ),
+                                                                ],
+                                                              ),
+                                                            );
+                                                          }),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   );
                                 }
                               });

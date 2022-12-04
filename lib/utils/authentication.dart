@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertwitter/utils/firestore/users.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -88,6 +89,7 @@ class Authentication {
   }
 
   Future<UserCredential> signInWithApple() async {
+    print('================１=========');
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
     final appleCredential = await SignInWithApple.getAppleIDCredential(
@@ -97,7 +99,7 @@ class Authentication {
       ],
       nonce: nonce,
     );
-
+    print('================２=========');
     final oauthCredential = OAuthProvider("apple.com").credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
@@ -105,7 +107,7 @@ class Authentication {
     final userCredential =
         await FirebaseAuth.instance.signInWithCredential(oauthCredential);
     final name = '${appleCredential.givenName}${appleCredential.familyName}';
-
+    print('================３=========');
     await createUserIfNotExist(
         userCredential: userCredential, name: name, imageUrl: '');
     return userCredential;
@@ -126,4 +128,12 @@ class Authentication {
       imagePath: imageUrl,
     ));
   }
+}
+
+FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+// use the returned token to send messages to users from your custom server
+Future<String?> getToken() async {
+  final token = await messaging.getToken();
+  return token;
 }
